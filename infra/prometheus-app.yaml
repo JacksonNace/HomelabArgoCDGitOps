@@ -9,7 +9,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/JacksonNace/hlgitops.git # <--- YOUR REPO
+    repoURL: git@github.com:JacksonNace/hlgitops.git
     targetRevision: HEAD
     path: infra/monitoring
     helm: # We are installing a Helm chart
