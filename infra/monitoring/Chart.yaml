@@ -1,0 +1,11 @@
+# infra/monitoring/Chart.yaml
+apiVersion: v2
+name: kube-prometheus-stack-app
+description: A deployment wrapper for the kube-prometheus-stack Helm chart
+type: application
+version: 0.1.0
+appVersion: "55.9.1"
+dependencies:
+  - name: kube-prometheus-stack
+    version: "55.9.1" # Use a recent stable version
+    repository: https://prometheus-community.github.io/helm-charts
