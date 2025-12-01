@@ -1,0 +1,52 @@
+# ~/hlgitops/apps/minecraft/deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-fabric
+  namespace: default
+  labels:
+    app: minecraft
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      containers:
+      - name: fabric-server
+        image: itzg/minecraft-server:latest # Use a standard, flexible Minecraft server image
+        ports:
+        - containerPort: 25565 # Internal port of the Minecraft application inside the container
+          name: mc-port
+        env:
+        - name: TYPE
+          value: FABRIC
+        - name: EULA
+          value: "TRUE"
+        - name: MEMORY
+          value: "3G"
+        volumeMounts:
+        - name: minecraft-data
+          mountPath: /data
+      volumes:
+      - name: minecraft-data
+        persistentVolumeClaim:
+          claimName: minecraft-world-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minecraft-service
+  namespace: default
+spec:
+  selector:
+    app: minecraft
+  ports:
+  - port: 25650 # <-- SERVICE PORT: External facing port for the cluster (your custom port)
+    targetPort: mc-port # <-- TARGET PORT: Routes to the container's internal port (25565)
+    protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,12 @@
+# ~/hlgitops/apps/minecraft/pvc.yaml (UNITS ARE UNCHANGED)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minecraft-world-pvc
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

@@ -1,0 +1,24 @@
+# ~/hlgitops/apps/minecraft/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minecraft-ingress
+  namespace: default
+  annotations:
+    # Use TCP protocol for Minecraft traffic
+    nginx.ingress.kubernetes.io/backend-protocol: TCP
+    # Disable HTTPS redirect, as Minecraft clients use raw TCP
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: mc.jacksonnace.net # <-- HOST SWAPPED
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: minecraft-service
+            port:
+              number: 25650 # <-- PORT SWAPPED: Must match the Service port
