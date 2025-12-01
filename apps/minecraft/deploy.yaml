@@ -49,4 +49,4 @@ spec:
   - port: 25650 # <-- SERVICE PORT: External facing port for the cluster (your custom port)
     targetPort: mc-port # <-- TARGET PORT: Routes to the container's internal port (25565)
     protocol: TCP
-  type: ClusterIP
+  type: NodePort
