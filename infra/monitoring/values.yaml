@@ -1,4 +1,35 @@
+# ~/hlgitops/infra/monitoring/values.yaml
+
+# 1. CRITICAL FIX: Disables CRD annotations that cause K8s API size limit error
 kube-prometheus-stack:
   crds:
     annotations:
-      {}
+      {} 
+
+# 2. REDUCE INTENSITY: Disable non-essential, resource-heavy components
+  grafana:
+    enabled: true # Keep Grafana for visualization
+
+  alertmanager:
+    enabled: true # Keep AlertManager for DR pipeline
+
+  # CRITICAL REDUCTION: Disable the massive embedded Prometheus instance
+  prometheus:
+    enabled: false 
+
+  # Disable the Prometheus Operator which consumes significant resources
+  prometheusOperator:
+    enabled: true # Must be true to install CRDs, but we reduce its resources
+
+  # Disable resource monitors we don't need right now (saves CPU/RAM)
+  kubeStateMetrics:
+    enabled: false
+
+  nodeExporter:
+    enabled: false 
+
+  # CRD INSTALLATION FIX: Tell Helm to install CRDs outside the main chart
+  # This is the standard way to fix the CRD size/ordering issue in K3s
+  crds:
+    install: true
+    keep: false

@@ -1,11 +1,13 @@
-# infra/monitoring/Chart.yaml
+# ~/hlgitops/infra/monitoring/Chart.yaml
 apiVersion: v2
 name: kube-prometheus-stack-app
-description: A deployment wrapper for the kube-prometheus-stack Helm chart
-type: application
+# ... other metadata ...
 version: 0.1.0
-appVersion: "58.2.0"
+appVersion: "58.2.0" 
 dependencies:
   - name: kube-prometheus-stack
-    version: "58.2.0" # Use a recent stable version
+    version: "58.2.0" 
     repository: https://prometheus-community.github.io/helm-charts
+    # Tell Helm to specifically skip dependency CRD management in this file
+    tags:
+      - disable-crds
