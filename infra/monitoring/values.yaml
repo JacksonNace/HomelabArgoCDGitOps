@@ -6,9 +6,14 @@ kube-prometheus-stack:
     annotations:
       {} 
 
-# 2. REDUCE INTENSITY: Disable non-essential, resource-heavy components
   grafana:
-    enabled: true # Keep Grafana for visualization
+    enabled: true 
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - grafana.jacksonnace.net
+      path: /
 
   alertmanager:
     enabled: true # Keep AlertManager for DR pipeline
